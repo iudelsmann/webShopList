@@ -1,0 +1,18 @@
+{
+  "short_name": "ShopList",
+  "name": "ShopList Lista de Compras Sincronizadas",
+  "start_url": "/",
+
+  "theme_color": "#f48c5b",
+  "background_color": "#ffffff",
+
+  "display": "standalone",
+  "orientation": "portrait",
+
+  "icons": [{
+    "src": "/assets/icons/android-chrome-512x512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
+
+}
