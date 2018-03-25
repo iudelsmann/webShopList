@@ -1,5 +1,5 @@
 <mat-nav-list>
-  <mat-list-item *ngFor="let item of items">
+  <mat-list-item *ngFor="let item of items | async">
     <mat-checkbox fxFlex [(ngModel)]="item.checked">{{item.name}}</mat-checkbox>
   </mat-list-item>
 </mat-nav-list>

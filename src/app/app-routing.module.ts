@@ -6,7 +6,7 @@ import { ListComponent } from './list/list.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'list', component: ListComponent },
+  { path: 'list/:listId', component: ListComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
 ];

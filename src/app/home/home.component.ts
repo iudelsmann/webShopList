@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  public lists: object[];
+  private listCollection: AngularFirestoreCollection<any>;
+  public lists: Observable<any[]>;
 
-  constructor() {
-    this.lists = [{ name: 'lista 1' }, { name: 'lista 2' }, { name: 'lista 3' }];
+  constructor(db: AngularFirestore) {
+    this.listCollection = db.collection('lists');
+    this.lists = this.listCollection.snapshotChanges().map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      });
+    });
   }
 
   ngOnInit() {

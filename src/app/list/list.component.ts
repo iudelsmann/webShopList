@@ -1,19 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
-  public items: object[];
+  private itemCollection: AngularFirestoreCollection<any>;
+  public items: Observable<any[]>;
 
-  constructor() {
-    this.items = [{ name: 'item 1', checked: false }, { name: 'item 2', checked: true }, { name: 'item 3', checked: true }];
+  private paramsSubscription: Subscription;
+
+  constructor(private route: ActivatedRoute, private db: AngularFirestore) {
   }
 
   ngOnInit() {
+    this.paramsSubscription = this.route.params.subscribe(params => {
+      this.itemCollection = this.db.collection(`listsItems/${params['listId']}/items`);
+      this.items = this.itemCollection.valueChanges();
+    });
+  }
+
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
   }
 
   toggleCheck(item) {
