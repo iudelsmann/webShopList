@@ -3,7 +3,7 @@
   "name": "ShopList Lista de Compras Sincronizadas",
   "start_url": "/",
 
-  "theme_color": "#f48c5b",
+  "theme_color": "#673ab7",
   "background_color": "#ffffff",
 
   "display": "standalone",

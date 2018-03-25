@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-
+import { FormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
+
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
@@ -14,17 +14,20 @@ import {
   MatIconModule,
   MatListModule,
   MatToolbarModule,
+  MatCheckboxModule,
 } from '@angular/material';
 
 import { environment } from '../environments/environment';
 
 import 'hammerjs';
 import { HomeComponent } from './home/home.component';
+import { ListComponent } from './list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +39,8 @@ import { HomeComponent } from './home/home.component';
     MatIconModule,
     MatListModule,
     MatToolbarModule,
+    MatCheckboxModule,
+    FormsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
