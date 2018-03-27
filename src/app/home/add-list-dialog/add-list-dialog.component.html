@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Nova Lista</h1>
+<form novalidate (ngSubmit)="formGroup.valid && close(list)">
+  <div mat-dialog-content [formGroup]="formGroup">
+    <mat-form-field>
+      <input matInput formControlName="name" placeholder="Nome" [(ngModel)]="list.name" cdkFocusInitial>
+      <mat-error *ngIf="nameControl.hasError('required')">
+        Nome é obrigatório
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="close()">Cancelar</button>
+    <button mat-button type="submit">Ok</button>
+  </div>
+</form>
