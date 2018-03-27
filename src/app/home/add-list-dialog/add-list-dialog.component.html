@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Nova Lista</h1>
-<form novalidate (ngSubmit)="formGroup.valid && close(list)">
+<form novalidate (ngSubmit)="formGroup.valid && close(list)" [formGroup]="formGroup">
   <div mat-dialog-content [formGroup]="formGroup">
     <mat-form-field>
       <input matInput formControlName="name" placeholder="Nome" [(ngModel)]="list.name" cdkFocusInitial>
@@ -9,7 +9,7 @@
     </mat-form-field>
   </div>
   <div mat-dialog-actions>
-    <button mat-button (click)="close()">Cancelar</button>
+    <button mat-button (click)="close(null)">Cancelar</button>
     <button mat-button type="submit">Ok</button>
   </div>
 </form>

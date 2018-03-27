@@ -9,7 +9,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class AddListDialogComponent implements OnInit {
 
-  public list: object;
+  public list: any;
   public formGroup: FormGroup;
   public nameControl: FormControl;
 
