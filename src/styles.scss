@@ -12,3 +12,10 @@ app-list {
     width: 100%;
   }
 }
+
+// Class for fab placement
+.mat-fab.bottom-right {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+}

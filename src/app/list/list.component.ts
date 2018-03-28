@@ -4,6 +4,8 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
+import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-list',
@@ -17,12 +19,12 @@ export class ListComponent implements OnInit, OnDestroy {
 
   private paramsSubscription: Subscription;
 
-  constructor(private route: ActivatedRoute, private db: AngularFirestore) {
+  constructor(private route: ActivatedRoute, private db: AngularFirestore, private dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe(params => {
-      this.itemCollection = this.db.collection(`listsItems/${params['listId']}/items`);
+      this.itemCollection = this.db.collection(`listsItems/${params['listId']}/items`, ref => ref.orderBy('createdAt'));
       this.items = this.itemCollection.snapshotChanges().map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
@@ -39,6 +41,16 @@ export class ListComponent implements OnInit, OnDestroy {
 
   update(item) {
     this.itemCollection.doc(item.id).update(_.omit(item, 'id'));
+  }
+
+  openDialog() {
+    this.dialog.open(AddItemDialogComponent).afterClosed().subscribe(this.addItem.bind(this));
+  }
+
+  addItem(item) {
+    if (item) {
+      this.itemCollection.add(item);
+    }
   }
 
   /**

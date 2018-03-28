@@ -28,13 +28,15 @@ import 'hammerjs';
 import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
 import { AddListDialogComponent } from './home/add-list-dialog/add-list-dialog.component';
+import { AddItemDialogComponent } from './list/add-item-dialog/add-item-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ListComponent,
-    AddListDialogComponent
+    AddListDialogComponent,
+    AddItemDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +59,6 @@ import { AddListDialogComponent } from './home/add-list-dialog/add-list-dialog.c
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [AddListDialogComponent],
+  entryComponents: [AddListDialogComponent, AddItemDialogComponent],
 })
 export class AppModule { }

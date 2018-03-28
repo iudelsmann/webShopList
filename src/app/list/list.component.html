@@ -3,3 +3,7 @@
     <mat-checkbox fxFlex [(ngModel)]="item.checked" (change)="update(item)">{{item.name}}</mat-checkbox>
   </mat-list-item>
 </mat-nav-list>
+
+<button class="bottom-right" mat-fab (click)="openDialog()" aria-label="add new item">
+  <mat-icon>add</mat-icon>
+</button>

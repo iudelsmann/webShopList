@@ -2,6 +2,6 @@
   <a mat-list-item [routerLink]="['/list', list.id]" *ngFor="let list of lists | async">{{list.name}}</a>
 </mat-nav-list>
 
-<button class="bottom-right" mat-fab (click)="openDialog()">
-  <mat-icon aria-label="add new list">add</mat-icon>
+<button class="bottom-right" mat-fab (click)="openDialog()" aria-label="add new list">
+  <mat-icon>add</mat-icon>
 </button>

@@ -1,8 +1,8 @@
-<h1 mat-dialog-title>Nova Lista</h1>
-<form novalidate (ngSubmit)="formGroup.valid && close(list)" [formGroup]="formGroup">
+<h1 mat-dialog-title>Novo Item</h1>
+<form novalidate (ngSubmit)="formGroup.valid && close(item)" [formGroup]="formGroup">
   <div mat-dialog-content>
     <mat-form-field>
-      <input matInput formControlName="name" placeholder="Nome" [(ngModel)]="list.name" cdkFocusInitial>
+      <input matInput formControlName="name" placeholder="Nome" [(ngModel)]="item.name" cdkFocusInitial>
       <mat-error *ngIf="nameControl.hasError('required')">
         Nome é obrigatório
       </mat-error>
