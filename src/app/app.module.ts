@@ -29,6 +29,7 @@ import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
 import { AddListDialogComponent } from './home/add-list-dialog/add-list-dialog.component';
 import { AddItemDialogComponent } from './list/add-item-dialog/add-item-dialog.component';
+import { SwipeDragDirective } from './directives/swipe-drag.directive';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AddItemDialogComponent } from './list/add-item-dialog/add-item-dialog.c
     HomeComponent,
     ListComponent,
     AddListDialogComponent,
-    AddItemDialogComponent
+    AddItemDialogComponent,
+    SwipeDragDirective
   ],
   imports: [
     BrowserModule,

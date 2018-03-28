@@ -1,5 +1,7 @@
 <mat-nav-list>
-  <a mat-list-item [routerLink]="['/list', list.id]" *ngFor="let list of lists | async">{{list.name}}</a>
+  <a mat-list-item [routerLink]="['/list', list.id]" *ngFor="let list of lists | async" (appSwipeDrag)="delete(list)" style="overflow-x: hidden; white-space: nowrap;">
+    {{list.name}}
+  </a>
 </mat-nav-list>
 
 <button class="bottom-right" mat-fab (click)="openDialog()" aria-label="add new list">

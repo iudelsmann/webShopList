@@ -33,5 +33,4 @@ export class AddItemDialogComponent implements OnInit {
     }
     this.dialogRef.close(item);
   }
-
 }
