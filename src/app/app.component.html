@@ -1,1 +1,3 @@
-<router-outlet></router-outlet>
+<main [@routerTransition]="getState(appOutlet)">
+  <router-outlet #appOutlet="outlet"></router-outlet>
+</main>

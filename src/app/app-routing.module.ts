@@ -5,8 +5,8 @@ import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'list/:listId', component: ListComponent },
+  { path: 'home', component: HomeComponent, data: { page: 'home' } },
+  { path: 'list/:listId', component: ListComponent, data: { page: 'list' } },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
 ];
