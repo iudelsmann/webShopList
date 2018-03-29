@@ -1,7 +1,12 @@
 <mat-nav-list>
-  <a mat-list-item [routerLink]="['/list', list.id]" *ngFor="let list of lists | async" (appSwipeDrag)="delete(list)" style="overflow-x: hidden; white-space: nowrap;">
-    {{list.name}}
-  </a>
+  <div fxLayout="row" *ngFor="let list of lists | async">
+    <div class="background-delete">
+      <mat-icon class="delete-icon">delete</mat-icon>
+    </div>
+    <a mat-list-item fxFlex [routerLink]="['/list', list.id]" (appSwipeDrag)="delete(list)" class="list-item">
+      {{list.name}}
+    </a>
+  </div>
 </mat-nav-list>
 
 <button class="bottom-right" mat-fab (click)="openDialog()" aria-label="add new list">
