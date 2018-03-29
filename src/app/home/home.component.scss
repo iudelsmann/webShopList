@@ -2,19 +2,20 @@ mat-nav-list {
   .list-item {
     overflow-x: hidden;
     white-space: nowrap;
-    background-color: white
+    background-color: white;
+    touch-action: pan-y !important;
   }
   div.background-delete {
-    background-color: red;
+    background-color: rgb(255, 50, 0);
     overflow: hidden;
     position: absolute;
     width: 100%;
     z-index: -1;
-    height: 48px
+    height: 48px;
   }
   .delete-icon {
     margin-top: 10px;
     margin-left: 10px;
-    color: darkslategrey
+    color: white;
   }
 }
