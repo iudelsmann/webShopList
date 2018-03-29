@@ -1,9 +1,17 @@
-<mat-nav-list>
-  <mat-list-item *ngFor="let item of items | async; trackBy: trackByFn">
-    <mat-checkbox fxFlex [(ngModel)]="item.checked" (change)="update(item)">{{item.name}}</mat-checkbox>
-  </mat-list-item>
-</mat-nav-list>
+<app-toolbar showBack="true">{{ (list | async)?.name }}</app-toolbar>
 
-<button class="bottom-right" mat-fab (click)="openDialog()" aria-label="add new item">
-  <mat-icon>add</mat-icon>
-</button>
+<div style="margin-top: 56px;" [hidden]="loading">
+  <mat-nav-list>
+    <mat-list-item *ngFor="let item of items | async; trackBy: trackByFn">
+      <mat-checkbox fxFlex [(ngModel)]="item.checked" (change)="update(item)">{{item.name}}</mat-checkbox>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <button class="bottom-right" mat-fab (click)="openDialog()" aria-label="add new item">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<div fxFlex fxLayout="column" fxLayoutAlign="center center" style="margin-top: 40vh" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>

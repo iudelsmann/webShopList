@@ -3,27 +3,34 @@ import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import * as _ from 'lodash';
 import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component';
 import { MatDialog } from '@angular/material';
+
+import * as _ from 'lodash';
+
+import 'rxjs/add/operator/first';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
 
   private itemCollection: AngularFirestoreCollection<any>;
   public items: Observable<any[]>;
 
-  private paramsSubscription: Subscription;
+  public list: Observable<any>;
+
+  public loading = true;
 
   constructor(private route: ActivatedRoute, private db: AngularFirestore, private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.paramsSubscription = this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {
+      this.list = this.db.doc<any>(`lists/${params['listId']}`).valueChanges();
+
       this.itemCollection = this.db.collection(`listsItems/${params['listId']}/items`, ref => ref.orderBy('createdAt'));
       this.items = this.itemCollection.snapshotChanges().map(actions => {
         return actions.map(a => {
@@ -32,11 +39,9 @@ export class ListComponent implements OnInit, OnDestroy {
           return { id, ...data };
         });
       });
-    });
-  }
 
-  ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+      this.items.first().subscribe(() => { this.loading = false; });
+    });
   }
 
   update(item) {

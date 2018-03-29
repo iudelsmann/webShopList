@@ -1,0 +1,6 @@
+<mat-toolbar color="primary" style="position: fixed; top: 0; left: 0; right: 0; z-index: 2;">
+  <div fxFlex=10 fxAlign="center center" fxLayout="column">
+    <mat-icon aria-label="back button" *ngIf="showBack" (click)="goBack()">arrow_back</mat-icon>
+  </div>
+  <ng-content></ng-content>
+</mat-toolbar>

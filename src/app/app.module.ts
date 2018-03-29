@@ -20,6 +20,7 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 
 import { environment } from '../environments/environment';
@@ -30,6 +31,7 @@ import { ListComponent } from './list/list.component';
 import { AddListDialogComponent } from './home/add-list-dialog/add-list-dialog.component';
 import { AddItemDialogComponent } from './list/add-item-dialog/add-item-dialog.component';
 import { SwipeDragDirective } from './directives/swipe-drag.directive';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { SwipeDragDirective } from './directives/swipe-drag.directive';
     ListComponent,
     AddListDialogComponent,
     AddItemDialogComponent,
-    SwipeDragDirective
+    SwipeDragDirective,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +58,7 @@ import { SwipeDragDirective } from './directives/swipe-drag.directive';
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })

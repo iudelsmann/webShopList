@@ -1,14 +1,18 @@
-<mat-nav-list>
-  <div fxLayout="row" *ngFor="let list of lists | async">
-    <div class="background-delete">
-      <mat-icon class="delete-icon">delete</mat-icon>
-    </div>
-    <a mat-list-item fxFlex [routerLink]="['/list', list.id]" (appSwipeDrag)="delete(list)" class="list-item">
-      {{list.name}}
-    </a>
-  </div>
-</mat-nav-list>
+<app-toolbar>Listas</app-toolbar>
 
-<button class="bottom-right" mat-fab (click)="openDialog()" aria-label="add new list">
-  <mat-icon>add</mat-icon>
-</button>
+<div style="margin-top: 56px;">
+  <mat-nav-list>
+    <div fxLayout="row" *ngFor="let list of lists | async">
+      <div class="background-delete">
+        <mat-icon class="delete-icon">delete</mat-icon>
+      </div>
+      <a mat-list-item fxFlex [routerLink]="['/list', list.id]" (appSwipeDrag)="delete(list)" class="list-item">
+        {{list.name}}
+      </a>
+    </div>
+  </mat-nav-list>
+
+  <button class="bottom-right" mat-fab (click)="openDialog()" aria-label="add new list">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
