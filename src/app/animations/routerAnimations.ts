@@ -2,6 +2,7 @@ import { trigger, animate, style, group, animateChild, query, stagger, transitio
 
 export const routerTransition =
     trigger('routerTransition', [
+        // Transition from home to any other route
         transition('home => *', [
             group([
                 query(':enter', style({ position: 'fixed', width: '100%', height: '100%', zIndex: 999 }), { optional: true }),
@@ -9,16 +10,18 @@ export const routerTransition =
             ]),
             group([
                 query(':enter', [
-                    style({ transform: 'translateY(100%)' }),
-                    animate('0.3s', style({ transform: 'translateY(0%)' }))
+                    style({ transform: 'translateY(50%)' }),
+                    animate('0.15s', style({ transform: 'translateY(0%)' }))
                 ], { optional: true }),
-                query(':leave', [
-                    style({ transform: 'translateY(0%)' }),
-                    animate('0.3s', style({ opacity: 0 }))
+
+                query(':enter', [
+                    style({ opacity: 0 }),
+                    animate('0.2s', style({ opacity: 1 }))
                 ], { optional: true }),
             ])
         ]),
 
+        // Transition from any route back to home
         transition('* => home', [
             group([
                 query(':enter', style({ position: 'fixed', width: '100%', height: '100%', }), { optional: true }),
@@ -26,7 +29,7 @@ export const routerTransition =
             ]),
             group([
                 query(':leave', [
-                    animate('0.3s', style({ opacity: 0, transform: 'translateX(100%)' }))
+                    animate('0.15s', style({ opacity: 0, transform: 'translateY(50%)' }))
                 ], { optional: true }),
             ])
         ])
