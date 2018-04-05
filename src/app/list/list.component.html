@@ -1,6 +1,6 @@
 <app-toolbar showBack="true">{{ (list | async)?.name }}</app-toolbar>
 
-<div style="margin-top: 56px;" [hidden]="loading">
+<div style="margin-top: 56px;" [hidden]="loading" fxFlex>
   <mat-nav-list>
     <mat-list-item *ngFor="let item of items | async; trackBy: trackByFn">
       <mat-checkbox fxFlex [(ngModel)]="item.checked" (change)="update(item)">{{item.name}}</mat-checkbox>
