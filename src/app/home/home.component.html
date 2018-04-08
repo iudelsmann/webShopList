@@ -1,7 +1,7 @@
 <app-toolbar>Listas</app-toolbar>
 
 <div style="margin-top: 56px;">
-  <mat-nav-list fxFlex>
+  <mat-nav-list>
     <div fxLayout="row" *ngFor="let list of lists | async">
       <div class="background-delete">
         <mat-icon class="delete-icon">delete</mat-icon>

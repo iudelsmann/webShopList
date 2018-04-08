@@ -21,6 +21,7 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatProgressSpinnerModule,
+  MatMenuModule,
 } from '@angular/material';
 
 import { environment } from '../environments/environment';
@@ -56,6 +57,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
+    MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import 'rxjs/add/operator/first';
+import { ListItem } from '../model/list-item.model';
 
 @Component({
   selector: 'app-list',
@@ -17,10 +18,12 @@ import 'rxjs/add/operator/first';
 })
 export class ListComponent implements OnInit {
 
-  private itemCollection: AngularFirestoreCollection<any>;
-  public items: Observable<any[]>;
+  private itemCollection: AngularFirestoreCollection<ListItem>;
+  public items: Observable<ListItem[]>;
 
   public list: Observable<any>;
+
+  private listId: string;
 
   public loading = true;
 
@@ -29,14 +32,15 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.list = this.db.doc<any>(`lists/${params['listId']}`).valueChanges();
+      this.listId = params['listId'];
+      this.list = this.db.doc<any>(`lists/${this.listId}`).valueChanges();
 
-      this.itemCollection = this.db.collection(`listsItems/${params['listId']}/items`, ref => ref.orderBy('createdAt'));
+      this.itemCollection = this.db.collection(`listsItems/${this.listId}/items`, ref => ref.orderBy('createdAt'));
       this.items = this.itemCollection.snapshotChanges().map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;
-          return { id, ...data };
+          return { id, ...data } as ListItem;
         });
       });
 
@@ -44,7 +48,7 @@ export class ListComponent implements OnInit {
     });
   }
 
-  update(item) {
+  update(item: ListItem) {
     this.itemCollection.doc(item.id).update(_.omit(item, 'id'));
   }
 
@@ -52,7 +56,7 @@ export class ListComponent implements OnInit {
     this.dialog.open(AddItemDialogComponent).afterClosed().subscribe(this.addItem.bind(this));
   }
 
-  addItem(item) {
+  addItem(item: ListItem) {
     if (item) {
       this.itemCollection.add(item);
     }
@@ -66,5 +70,16 @@ export class ListComponent implements OnInit {
    */
   trackByFn(index, item) {
     return item.id;
+  }
+
+  async removeChecked() {
+    const querySnap = await this.db.collection(`listsItems/${this.listId}/items`).ref.where('checked', '==', true).get();
+
+    const batch = this.db.firestore.batch();
+    querySnap.docs.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+
+    return batch.commit();
   }
 }

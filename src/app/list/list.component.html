@@ -1,4 +1,15 @@
-<app-toolbar showBack="true">{{ (list | async)?.name }}</app-toolbar>
+<app-toolbar showBack="true">
+  {{ (list | async)?.name }}
+  <span fxFlex></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon aria-label="more options">more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="removeChecked()">
+      <span>Remover selecionados</span>
+    </button>
+  </mat-menu>
+</app-toolbar>
 
 <div style="margin-top: 56px;" [hidden]="loading" fxFlex>
   <mat-nav-list>
