@@ -19,5 +19,3 @@ export interface List {
     createdAt: number;
     name: string;
 }
-
-

@@ -9,8 +9,15 @@ import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import 'rxjs/add/operator/first';
-import { ListItem } from '../model/list-item.model';
+import { ListItem, List } from '../model/list-item.model';
 
+/**
+ * List compoenent. Displays the items of a list, allowing them to be checked/unchecked, added or removed.
+ *
+ * @export
+ * @class ListComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -18,22 +25,57 @@ import { ListItem } from '../model/list-item.model';
 })
 export class ListComponent implements OnInit {
 
+  /**
+   * Item collection reference.
+   *
+   * @private
+   * @type {AngularFirestoreCollection<ListItem>}
+   */
   private itemCollection: AngularFirestoreCollection<ListItem>;
+
+  /**
+   * The list of items itself.
+   *
+   * @type {Observable<ListItem[]>}
+   */
   public items: Observable<ListItem[]>;
 
+  /**
+   * The currently displayed list document.
+   *
+   * @type {Observable<any>}
+   */
   public list: Observable<any>;
 
+  /**
+   * The id of the currently displayed list.
+   *
+   * @private
+   * @type {string}
+   */
   private listId: string;
 
+  /**
+   * Bind variable to show/hide loading indicator.
+   */
   public loading = true;
 
+  /**
+   * Creates an instance of ListComponent.
+   * @param {ActivatedRoute} route injected activated route service
+   * @param {AngularFirestore} db injected firestore service
+   * @param {MatDialog} dialog injected material dialog service
+   */
   constructor(private route: ActivatedRoute, private db: AngularFirestore, private dialog: MatDialog) {
   }
 
+  /**
+   * Called after compoenent is initialized. Loads the collections from firestore.
+   */
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.listId = params['listId'];
-      this.list = this.db.doc<any>(`lists/${this.listId}`).valueChanges();
+      this.list = this.db.doc<List>(`lists/${this.listId}`).valueChanges();
 
       this.itemCollection = this.db.collection(`listsItems/${this.listId}/items`, ref => ref.orderBy('createdAt'));
       this.items = this.itemCollection.snapshotChanges().map(actions => {
@@ -48,15 +90,29 @@ export class ListComponent implements OnInit {
     });
   }
 
+  /**
+   * Updates and item. Used to mark the item as checked.
+   *
+   * @param {ListItem} item the new item values
+   */
   update(item: ListItem) {
     this.itemCollection.doc(item.id).update(_.omit(item, 'id'));
   }
 
+  /**
+   * Opens a dialog to add a new item.
+   */
   openDialog() {
     this.dialog.open(AddItemDialogComponent).afterClosed().subscribe(this.addItem.bind(this));
   }
 
-  addItem(item: ListItem) {
+  /**
+   * Adds a new item in the current list.
+   *
+   * @private
+   * @param {ListItem} item
+   */
+  private addItem(item: ListItem) {
     if (item) {
       this.itemCollection.add(item);
     }
@@ -67,11 +123,17 @@ export class ListComponent implements OnInit {
    *
    * @param index index of the item in the list
    * @param item the item to be tracked
+   * @returns the item id, used as its unique identifier
    */
   trackByFn(index, item) {
     return item.id;
   }
 
+  /**
+   * Removes all checked items from the current list.
+   *
+   * @returns {Promise<void>} a promise that resolves to void when all items have been removed
+   */
   async removeChecked() {
     const querySnap = await this.db.collection(`listsItems/${this.listId}/items`).ref.where('checked', '==', true).get();
 
