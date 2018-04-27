@@ -6,6 +6,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/do';
 
+function isLoggedIn(authState: Observable<any>): Observable<boolean> {
+  return authState
+    .first()
+    .map(logged => !!logged);
+}
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
@@ -14,9 +20,22 @@ export class AuthGuard implements CanActivate {
   ) { }
 
   canActivate(): Observable<boolean> {
-    return this.afAuth.authState
-      .first()
-      .map(authState => !!authState)
-      .do(auth => !auth ? this.router.navigate(['/login']) : true);
+    return isLoggedIn(this.afAuth.authState)
+      .do(logged => !logged ? this.router.navigate(['/login']) : true);
   }
 }
+
+@Injectable()
+export class AlreadySignedInGuard implements CanActivate {
+  constructor(
+    private afAuth: AngularFireAuth,
+    private router: Router,
+  ) { }
+
+  canActivate(): Observable<boolean> {
+    return isLoggedIn(this.afAuth.authState)
+      .map(logged => !logged)
+      .do(notLogged => !notLogged ? this.router.navigate(['/home']) : true);
+  }
+}
+

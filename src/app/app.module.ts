@@ -36,8 +36,7 @@ import { SwipeDragDirective } from './directives/swipe-drag.directive';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { LoginComponent } from './login/login.component';
 import { AuthenticationService } from './login/authentication.service';
-import { AuthGuard } from './guards/auth.guard';
-import { AlreadySignedInGuard } from './guards/already-signed-in.guard';
+import { AuthGuard, AlreadySignedInGuard } from './guards/auth.guard';
 
 @NgModule({
   declarations: [
