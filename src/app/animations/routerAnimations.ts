@@ -10,7 +10,7 @@ export const routerTransition =
             ]),
             group([
                 query(':enter', [
-                    style({ transform: 'translateY(50%)' }),
+                    style({ transform: 'translateY(25%)' }),
                     animate('0.1s', style({ transform: 'translateY(0%)' }))
                 ], { optional: true }),
 
@@ -29,7 +29,7 @@ export const routerTransition =
             ]),
             group([
                 query(':leave', [
-                    animate('0.1s', style({ opacity: 0, transform: 'translateY(50%)' }))
+                    animate('0.1s', style({ opacity: 0, transform: 'translateY(25%)' }))
                 ], { optional: true }),
             ])
         ])

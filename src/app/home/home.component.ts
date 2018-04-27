@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material';
 import { AddListDialogComponent } from './add-list-dialog/add-list-dialog.component';
 import { Router } from '@angular/router';
 import { List } from '../model/list-item.model';
+import { AuthenticationService } from '../login/authentication.service';
 
 /**
  * Home compoenent. Displays the available lists and allows to add, remove and navigate to list details.
@@ -41,7 +42,8 @@ export class HomeComponent implements OnInit {
    * @param {MatDialog} dialog injected material dialog service
    * @param {Router} router injected router service
    */
-  constructor(private db: AngularFirestore, private dialog: MatDialog, private router: Router) {
+  constructor(private db: AngularFirestore, private dialog: MatDialog, private router: Router,
+    private authenticationService: AuthenticationService) {
   }
 
   /**
@@ -106,5 +108,13 @@ export class HomeComponent implements OnInit {
     });
 
     return batch.commit();
+  }
+
+  /**
+   * Logs the user out then navigates to the login page.
+   */
+  async logout() {
+    await this.authenticationService.logout();
+    this.router.navigate(['login']);
   }
 }

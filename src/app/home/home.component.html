@@ -1,4 +1,14 @@
-<app-toolbar>Listas</app-toolbar>
+<app-toolbar>Listas
+  <span fxFlex></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon aria-label="more options">account_circle</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <span>Sair</span>
+    </button>
+  </mat-menu>
+</app-toolbar>
 
 <div style="margin-top: 56px;">
   <mat-nav-list>
