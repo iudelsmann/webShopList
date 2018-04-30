@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 
 import 'rxjs/add/operator/first';
 import { ListItem, List } from '../model/list-item.model';
+import { AuthenticationService } from '../login/authentication.service';
 
 /**
  * List compoenent. Displays the items of a list, allowing them to be checked/unchecked, added or removed.
@@ -66,7 +67,8 @@ export class ListComponent implements OnInit {
    * @param {AngularFirestore} db injected firestore service
    * @param {MatDialog} dialog injected material dialog service
    */
-  constructor(private route: ActivatedRoute, private db: AngularFirestore, private dialog: MatDialog) {
+  constructor(private route: ActivatedRoute, private db: AngularFirestore, private dialog: MatDialog,
+    private authenticationService: AuthenticationService) {
   }
 
   /**
@@ -75,7 +77,10 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.listId = params['listId'];
-      this.list = this.db.doc<List>(`lists/${this.listId}`).valueChanges();
+
+      this.authenticationService.user.subscribe((user) => {
+        this.list = this.db.doc<List>(`users/${user.uid}/lists/${this.listId}`).valueChanges();
+      });
 
       this.itemCollection = this.db.collection(`listsItems/${this.listId}/items`, ref => ref.orderBy('createdAt'));
       this.items = this.itemCollection.snapshotChanges().map(actions => {

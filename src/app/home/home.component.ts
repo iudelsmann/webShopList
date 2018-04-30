@@ -51,12 +51,14 @@ export class HomeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.listCollection = this.db.collection('lists', ref => ref.orderBy('createdAt'));
-    this.lists = this.listCollection.snapshotChanges().map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data();
-        const id = a.payload.doc.id;
-        return { id, ...data } as List;
+    this.authenticationService.user.subscribe(user => {
+      this.listCollection = this.db.collection(`users/${user.uid}/lists`, ref => ref.orderBy('createdAt'));
+      this.lists = this.listCollection.snapshotChanges().map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data } as List;
+        });
       });
     });
   }
@@ -96,10 +98,10 @@ export class HomeComponent implements OnInit {
    * Delete the items of a list. This is necessary as it isn't allowed to delete a document that contains a collection.
    *
    * @private
-   * @param {any} list the list to be deleted
+   * @param {List} list the list to be deleted
    * @returns {Promise<void>} a promise that resolves to void when the list is deleted
    */
-  private async deleteListItems(list: List) {
+  private async deleteListItems(list: List): Promise<void> {
     const querySnap = await this.db.collection(`listsItems/${list.id}/items`).ref.get();
 
     const batch = this.db.firestore.batch();
@@ -112,8 +114,9 @@ export class HomeComponent implements OnInit {
 
   /**
    * Logs the user out then navigates to the login page.
+   * @returns {Promise<void>} a promise that resolves when the user succesfully logged out
    */
-  async logout() {
+  async logout(): Promise<void> {
     await this.authenticationService.logout();
     this.router.navigate(['login']);
   }

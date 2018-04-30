@@ -6,11 +6,11 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyCrA9N1juZhyNqaEyQ1SqThwt2xGKceR2I',
-    authDomain: 'shoplist-ivo.firebaseapp.com',
-    databaseURL: 'https://shoplist-ivo.firebaseio.com',
-    projectId: 'shoplist-ivo',
-    storageBucket: 'shoplist-ivo.appspot.com',
-    messagingSenderId: '625676542279',
+    apiKey: 'AIzaSyBpQphNTvo5q62QINveiEkCzd2_rR5qEEc',
+    authDomain: 'shoplist-dev-2640d.firebaseapp.com',
+    databaseURL: 'https://shoplist-dev-2640d.firebaseio.com',
+    projectId: 'shoplist-dev-2640d',
+    storageBucket: 'shoplist-dev-2640d.appspot.com',
+    messagingSenderId: '831831945383'
   }
 };
