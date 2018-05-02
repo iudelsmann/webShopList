@@ -19,3 +19,13 @@ export interface List {
     createdAt: number;
     name: string;
 }
+
+/**
+ * Data needed to request a list to be shared with another user.
+ * @interface ShareRequest
+ */
+export interface ShareRequest {
+    email: string;
+    listId: string;
+    list: List;
+}

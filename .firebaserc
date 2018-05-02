@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "shoplist-ivo"
+    "default": "shoplist-ivo",
+    "dev": "shoplist-dev-2640d"
   }
 }
