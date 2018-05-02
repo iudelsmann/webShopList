@@ -38,6 +38,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { LoginComponent } from './login/login.component';
 import { AuthenticationService } from './login/authentication.service';
 import { AuthGuard, AlreadySignedInGuard } from './guards/auth.guard';
+import { ShareListDialogComponent } from './list/share-list-dialog/share-list-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { AuthGuard, AlreadySignedInGuard } from './guards/auth.guard';
     AddItemDialogComponent,
     SwipeDragDirective,
     ToolbarComponent,
-    LoginComponent
+    LoginComponent,
+    ShareListDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +77,6 @@ import { AuthGuard, AlreadySignedInGuard } from './guards/auth.guard';
   ],
   providers: [AuthGuard, AlreadySignedInGuard, AuthenticationService],
   bootstrap: [AppComponent],
-  entryComponents: [AddListDialogComponent, AddItemDialogComponent],
+  entryComponents: [AddListDialogComponent, AddItemDialogComponent, ShareListDialogComponent],
 })
 export class AppModule { }

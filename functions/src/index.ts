@@ -18,11 +18,11 @@ export const shareList = functions.firestore.document('/share/{id}')
         list.createdAt = new Date().getTime();
         return admin.firestore().doc(`/users/${userRecord.uid}/lists/${data.listId}`).set(data.list);
       })
+      .catch(() => {
+        console.log('User not found');
+      })
       .then(() => {
         console.log('Deleting share request data');
         return event.ref.delete();
-      })
-      .catch(() => {
-        console.log('User not found');
       });
   });

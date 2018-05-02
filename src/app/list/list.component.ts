@@ -9,8 +9,9 @@ import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import 'rxjs/add/operator/first';
-import { ListItem, List } from '../model/list-item.model';
+import { ListItem, List, ShareRequest } from '../model/list-item.model';
 import { AuthenticationService } from '../login/authentication.service';
+import { ShareListDialogComponent } from './share-list-dialog/share-list-dialog.component';
 
 /**
  * List compoenent. Displays the items of a list, allowing them to be checked/unchecked, added or removed.
@@ -44,9 +45,11 @@ export class ListComponent implements OnInit {
   /**
    * The currently displayed list document.
    *
-   * @type {Observable<any>}
+   * @type {Observable<List>}
    */
-  public list: Observable<any>;
+  public list: Observable<List>;
+
+  public listAux: List;
 
   /**
    * The id of the currently displayed list.
@@ -80,6 +83,9 @@ export class ListComponent implements OnInit {
 
       this.authenticationService.user.subscribe((user) => {
         this.list = this.db.doc<List>(`users/${user.uid}/lists/${this.listId}`).valueChanges();
+        this.list.subscribe(list => {
+          this.listAux = list;
+        });
       });
 
       this.itemCollection = this.db.collection(`listsItems/${this.listId}/items`, ref => ref.orderBy('createdAt'));
@@ -139,7 +145,7 @@ export class ListComponent implements OnInit {
    *
    * @returns {Promise<void>} a promise that resolves to void when all items have been removed
    */
-  async removeChecked() {
+  async removeChecked(): Promise<void> {
     const querySnap = await this.db.collection(`listsItems/${this.listId}/items`).ref.where('checked', '==', true).get();
 
     const batch = this.db.firestore.batch();
@@ -148,5 +154,23 @@ export class ListComponent implements OnInit {
     });
 
     return batch.commit();
+  }
+
+  /**
+   * Opens a dialog to share the list with another user.
+   */
+  openShareDialog() {
+    this.dialog.open(ShareListDialogComponent).afterClosed().subscribe(this.share.bind(this));
+  }
+
+  /**
+   * Shares the current list with the provided email.
+   *
+   * @param {ShareRequest} shareRequest the email of the user already in a share request object
+   */
+  share(shareRequest: ShareRequest) {
+    shareRequest.listId = this.listId;
+    shareRequest.list = this.listAux;
+    this.db.collection('share').add(shareRequest);
   }
 }
