@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Compartilhar</h1>
+<form novalidate (ngSubmit)="formGroup.valid && close(shareRequest)" [formGroup]="formGroup">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input type="email" matInput formControlName="email" placeholder="E-mail" [(ngModel)]="shareRequest.email" cdkFocusInitial>
+      <mat-error *ngIf="emailControl.hasError('required')">
+        E-mail é obrigatório
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="close(null)">Cancelar</button>
+    <button mat-button type="submit">Ok</button>
+  </div>
+</form>

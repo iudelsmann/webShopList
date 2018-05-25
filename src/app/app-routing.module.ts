@@ -3,12 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
 import { ListComponent } from './list/list.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard, AlreadySignedInGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, data: { page: 'home' } },
+  { path: 'home', component: HomeComponent, data: { page: 'home' }, canActivate: [AuthGuard] },
   { path: 'list/:listId', component: ListComponent, data: { page: 'list' } },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' },
+  { path: 'login', component: LoginComponent, data: { page: 'login' }, canActivate: [AlreadySignedInGuard] },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login' },
 ];
 
 @NgModule({

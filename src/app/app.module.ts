@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +35,10 @@ import { AddListDialogComponent } from './home/add-list-dialog/add-list-dialog.c
 import { AddItemDialogComponent } from './list/add-item-dialog/add-item-dialog.component';
 import { SwipeDragDirective } from './directives/swipe-drag.directive';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { LoginComponent } from './login/login.component';
+import { AuthenticationService } from './login/authentication.service';
+import { AuthGuard, AlreadySignedInGuard } from './guards/auth.guard';
+import { ShareListDialogComponent } from './list/share-list-dialog/share-list-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,12 +48,15 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     AddListDialogComponent,
     AddItemDialogComponent,
     SwipeDragDirective,
-    ToolbarComponent
+    ToolbarComponent,
+    LoginComponent,
+    ShareListDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     FlexLayoutModule,
     MatButtonModule,
     MatIconModule,
@@ -63,10 +72,11 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
+    AngularFireAuthModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [AuthGuard, AlreadySignedInGuard, AuthenticationService],
   bootstrap: [AppComponent],
-  entryComponents: [AddListDialogComponent, AddItemDialogComponent],
+  entryComponents: [AddListDialogComponent, AddItemDialogComponent, ShareListDialogComponent],
 })
 export class AppModule { }
