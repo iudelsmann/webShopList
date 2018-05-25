@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component';
 import { MatDialog } from '@angular/material';
 
 import * as _ from 'lodash';
 
-import 'rxjs/add/operator/first';
+
 import { ListItem, List, ShareRequest } from '../model/list-item.model';
 import { AuthenticationService } from '../login/authentication.service';
 import { ShareListDialogComponent } from './share-list-dialog/share-list-dialog.component';
@@ -89,15 +89,15 @@ export class ListComponent implements OnInit {
       });
 
       this.itemCollection = this.db.collection(`listsItems/${this.listId}/items`, ref => ref.orderBy('createdAt'));
-      this.items = this.itemCollection.snapshotChanges().map(actions => {
+      this.items = this.itemCollection.snapshotChanges().pipe(map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;
           return { id, ...data } as ListItem;
         });
-      });
+      }));
 
-      this.items.first().subscribe(() => { this.loading = false; });
+      this.items.pipe(first()).subscribe(() => { this.loading = false; });
     });
   }
 

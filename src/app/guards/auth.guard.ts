@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/do';
+import { Observable } from 'rxjs';
+import { first, map, tap } from 'rxjs/operators';
+
+
+
 
 function isLoggedIn(authState: Observable<any>): Observable<boolean> {
   return authState
-    .first()
-    .map(logged => !!logged);
+    .pipe(first(), map(logged => !!logged));
 }
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return isLoggedIn(this.afAuth.authState)
-      .do(logged => !logged ? this.router.navigate(['/login']) : true);
+      .pipe(tap(logged => !logged ? this.router.navigate(['/login']) : true));
   }
 }
 
@@ -34,8 +34,7 @@ export class AlreadySignedInGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return isLoggedIn(this.afAuth.authState)
-      .map(logged => !logged)
-      .do(notLogged => !notLogged ? this.router.navigate(['/home']) : true);
+      .pipe(map(logged => !logged), tap(notLogged => !notLogged ? this.router.navigate(['/home']) : true));
   }
 }
 

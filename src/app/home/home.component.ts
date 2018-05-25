@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { MatDialog } from '@angular/material';
 import { AddListDialogComponent } from './add-list-dialog/add-list-dialog.component';
@@ -53,13 +54,13 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.authenticationService.user.subscribe(user => {
       this.listCollection = this.db.collection(`users/${user.uid}/lists`, ref => ref.orderBy('createdAt'));
-      this.lists = this.listCollection.snapshotChanges().map(actions => {
+      this.lists = this.listCollection.snapshotChanges().pipe(map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;
           return { id, ...data } as List;
         });
-      });
+      }));
     });
   }
 
