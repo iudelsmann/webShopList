@@ -82,10 +82,12 @@ export class ListComponent implements OnInit {
       this.listId = params['listId'];
 
       this.authenticationService.user.subscribe((user) => {
-        this.list = this.db.doc<List>(`users/${user.uid}/lists/${this.listId}`).valueChanges();
-        this.list.subscribe(list => {
-          this.listAux = list;
-        });
+        if (user) {
+          this.list = this.db.doc<List>(`users/${user.uid}/lists/${this.listId}`).valueChanges();
+          this.list.subscribe(list => {
+            this.listAux = list;
+          });
+        }
       });
 
       this.itemCollection = this.db.collection(`listsItems/${this.listId}/items`, ref => ref.orderBy('createdAt'));

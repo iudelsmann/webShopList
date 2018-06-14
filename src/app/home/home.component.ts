@@ -53,14 +53,16 @@ export class HomeComponent implements OnInit {
    */
   ngOnInit() {
     this.authenticationService.user.subscribe(user => {
-      this.listCollection = this.db.collection(`users/${user.uid}/lists`, ref => ref.orderBy('createdAt'));
-      this.lists = this.listCollection.snapshotChanges().pipe(map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data } as List;
-        });
-      }));
+      if (user) {
+        this.listCollection = this.db.collection(`users/${user.uid}/lists`, ref => ref.orderBy('createdAt'));
+        this.lists = this.listCollection.snapshotChanges().pipe(map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data } as List;
+          });
+        }));
+      }
     });
   }
 

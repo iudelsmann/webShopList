@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['home']);
     } catch (error) {
       console.log(error);
+      this.snackBar.open(error);
     }
   }
 }

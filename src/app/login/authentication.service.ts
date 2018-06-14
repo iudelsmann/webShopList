@@ -20,7 +20,7 @@ export class AuthenticationService {
   login() {
     const provider = new firebase.auth.GoogleAuthProvider();
 
-    return this.afAuth.auth.signInWithPopup(provider)
+    return this.afAuth.auth.signInWithRedirect(provider)
       .catch(error => console.log(error));
   }
 

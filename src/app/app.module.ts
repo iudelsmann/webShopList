@@ -24,6 +24,7 @@ import {
   MatInputModule,
   MatProgressSpinnerModule,
   MatMenuModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 import { environment } from '../environments/environment';
@@ -67,6 +68,7 @@ import { ShareListDialogComponent } from './list/share-list-dialog/share-list-di
     MatInputModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
